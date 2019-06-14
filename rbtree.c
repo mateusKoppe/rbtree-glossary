@@ -1,12 +1,16 @@
 #include <stdlib.h>
 #include "rbtree.h"
 
+void _node_initialize (node *new_node, rb_tree *tree, node *parent, int key);
+
 int rbt_initialize (rb_tree *tree) {
   node *nil = malloc(sizeof(node));
   nil->color = BLACK;
   tree->nil = nil;
+  tree->root = nil;
   return 1;
 }
+
 
 int rbt_insert (rb_tree *tree, int key) {
   node *new_node = malloc(sizeof(node));
@@ -22,7 +26,7 @@ int rbt_insert (rb_tree *tree, int key) {
     }
   }
 
-  new_node->parent = backup_node;
+  _node_initialize(new_node, tree, backup_node, key);
   if (backup_node == tree->nil) {
     tree->root = new_node;
   } else if (key < backup_node->value) {
@@ -32,5 +36,13 @@ int rbt_insert (rb_tree *tree, int key) {
   }
 
   return 1;
+}
+
+void _node_initialize (node *new_node, rb_tree *tree, node *parent, int key) {
+  new_node->parent = parent;
+  new_node->value = key;
+  new_node->left = tree->nil;
+  new_node->right = tree->nil;
+  new_node->color = RED;
 }
 

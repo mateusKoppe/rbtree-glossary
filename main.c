@@ -9,5 +9,6 @@ int main(void) {
   rbt_insert(&tree, 15);
   rbt_insert(&tree, 2);
   rbt_insert(&tree, 4);
+  rbt_insert(&tree, 17);
   return 0;
 }
