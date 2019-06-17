@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include "rbtree.h"
 
 void _node_initialize (node *new_node, rb_tree *tree, node *parent, int key);
@@ -11,6 +12,18 @@ int rbt_initialize (rb_tree *tree) {
   return 1;
 }
 
+void _rbt_print(rb_tree *t, node *x) {
+  if (x == t->nil) return;
+  printf("%d \n", x->value);
+  if (x->left != t->nil) {
+    printf("%d left: ", x->value);
+    _rbt_print(t, x->left);
+  }
+  if (x->right != t->nil) {
+    printf("%d right: ", x->value);
+    _rbt_print(t, x->right);
+  }
+}
 
 int rbt_insert (rb_tree *tree, int key) {
   node *new_node = malloc(sizeof(node));
@@ -34,6 +47,9 @@ int rbt_insert (rb_tree *tree, int key) {
   } else {
     backup_node->right = new_node;
   }
+
+  _rbt_print(tree, tree->root);
+  printf("\n\n");
 
   return 1;
 }
