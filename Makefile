@@ -3,13 +3,13 @@ All: start
 start: compile
 	./main
 
-compile: main.o rbtree.o
-	gcc main.o rbtree.o -o main
+compile: main.o
+	gcc -g main.o -o main
 
 .SUFFIXES: .o .c
 
 .c.o:
-	gcc -c $*.c -Wall -O2 -ansi
+	gcc -g -c $*.c -Wall -O2 -ansi
 
 order:
 	rm -f *.o
