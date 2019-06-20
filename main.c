@@ -27,6 +27,19 @@ void _rbt_print(rb_tree *t, node *x) {
   }
 }
 
+node *rbt_search(rb_tree *t, int key) {
+  node *fetch_node = t->root;
+  while (fetch_node != t->nil && fetch_node->value != key) {
+    if (key < fetch_node->value) { 
+      fetch_node = fetch_node->left;
+    }
+    else {
+      fetch_node = fetch_node->right;
+    }
+  }
+  return fetch_node;
+}
+
 int rbt_insert (rb_tree *tree, int key) {
   node *new_node = malloc(sizeof(node));
   node *fetch_node = tree->root;
@@ -158,6 +171,9 @@ int main(void) {
 
 
   _rbt_print(&tree, tree.root);
+
+  node *searched_node = rbt_search(&tree, 17);
+  printf("Searchde node has key %d\n", searched_node->value);
 
   return 0;
 }

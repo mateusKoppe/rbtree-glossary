@@ -16,5 +16,6 @@ typedef struct {
 
 int rbt_initialize (rb_tree *t);
 int rbt_insert (rb_tree *t, int key);
+node *rbt_search(rb_tree *t, int key);
 
 #endif
