@@ -1,23 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-/* TREE.h */
-
-#define BLACK 0
-#define RED 1
-
-typedef struct Node {
-  int value;
-  int color;
-  struct Node *parent, *right, *left;
-} node;
-
-typedef struct {
-  node *root, *nil;
-} rb_tree;
-
-int rbt_initialize (rb_tree *t);
-int rbt_insert (rb_tree *t, int key);
+#include "rbtree.h"
 
 /* TREE */
 void _node_initialize (node *new_node, rb_tree *tree, node *parent, int key);
