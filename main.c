@@ -173,7 +173,10 @@ int main(void) {
   _rbt_print(&tree, tree.root);
 
   node *searched_node = rbt_search(&tree, 17);
-  printf("Searchde node has key %d\n", searched_node->value);
+  printf("Search de node has key: %d and color: %s \n",
+    searched_node->value,
+    searched_node->color ? "red" : "black"
+  );
 
   return 0;
 }

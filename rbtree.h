@@ -2,7 +2,7 @@
 #define _RBTREE
 
 #define BLACK 0
-#define RED 0
+#define RED 1
 
 typedef struct Node {
   int value;
