@@ -285,6 +285,7 @@ void rbt_delete(rb_tree *t, node *n) {
     x = n->left;
     rbt_transplant(t, n, n->left);
   } else {
+    free(y);
     node *y = rbt_minimum(t, n->right);
     y_original_color = y->color;
     x = y->right;
