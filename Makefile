@@ -3,8 +3,8 @@ All: start
 start: compile
 	./main
 
-compile: main.o
-	gcc -g main.o -o main
+compile: main.o rbtree.o
+	gcc -g main.o rbtree.o -o main
 
 .SUFFIXES: .o .c
 
