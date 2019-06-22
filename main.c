@@ -39,10 +39,10 @@ void _rbt_print(rb_tree *t, node *x, int level) {
     x->color ? "]" : ")"
   );
   if (x->left != t->nil) {
-    _rbt_print(t, x->left, level + 1);
+    _rbt_print(t, x->right, level + 1);
   }
   if (x->right != t->nil) {
-    _rbt_print(t, x->right, level + 1);
+    _rbt_print(t, x->left, level + 1);
   }
   if(level == 0) {
     printf("\n");
