@@ -2,37 +2,64 @@
 #include <stdlib.h>
 #include "rbtree/rbtree.h"
 
+const KEY_ENTER = 10;
+const KEY_SPACE = 32;
+
 /* MAIN */
 
 int main(void) {
+  char input;
+  char action = NULL;
+  int stage = 0;
+  int cycle = 0;
+
   rb_tree tree;
   rbt_initialize(&tree);
-  rbt_insert(&tree, 10);
-  rbt_insert(&tree, 29);
-  rbt_insert(&tree, 21);
-  rbt_insert(&tree, 5);
-  rbt_insert(&tree, 15);
-  rbt_insert(&tree, 2);
-  rbt_insert(&tree, 17);
-  rbt_insert(&tree, 4);
-  rbt_insert(&tree, 19);
-  rbt_insert(&tree, 3);
-  rbt_insert(&tree, 6);
-  rbt_insert(&tree, 7);
 
-  _rbt_print(&tree, tree.root, 0);
+  char *param;
+  int param_size;
+  int key;
+  while (scanf("%c", &input) != EOF) {
+    cycle = 1;
+    if (!action) {
+      action = input;
+      stage = 0;
+      cycle = 0;
+    }
+    if (input == KEY_ENTER) {
+      cycle = 2;
+    }
+    if (input == KEY_SPACE) {
+      stage++;
+      continue;
+    }
+    switch (action) {
+    case 'i':
+      if (input == KEY_ENTER) {
+        stage++;
+      }
+      if (cycle == 0) {
+        param_size = 0;
+        param = (char *) malloc(0);
+      } else if (cycle == 1) {
+        param_size++;
+        param = realloc(param, sizeof (char*) * param_size);
+        param[param_size-1] = input;
+      } else if (cycle == 2) {
+        key = (int) strtol(param, NULL, 10);
+        rbt_insert(&tree, key);
+        free(param);
+      }
+      break;
 
-  node *searched_node = rbt_search(&tree, 17);
-  printf("Search de node has key: %d and color: %s \n",
-    searched_node->value,
-    searched_node->color ? "red" : "black"
-  );
+    default:
+      action = NULL;
+    }
 
-  node *delete_node = rbt_search(&tree, 10);
-  rbt_delete(&tree, delete_node);
-
-  _rbt_print(&tree, tree.root, 0);
-
+    if (input == KEY_ENTER) {
+      action = NULL;
+    }
+  }
 
   return 0;
 }

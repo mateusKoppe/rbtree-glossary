@@ -4,7 +4,7 @@ start: compile
 
 dev:
 	gcc -g main.c rbtree/rbtree.c -Wall -O2 -ansi -Wno-unused-result  -o main
-	./main
+	gdb main
 
 compile: main.o rbtree/rbtree.o
 	gcc main.o rbtree/rbtree.o -o main
