@@ -22,28 +22,67 @@ node* _clone_node (node *n, node *clone_node) {
   return n;
 }
 
-void left_rotate(rb_tree *t, node *x) {
-  node *y = x->right;
-  x->right = y->left;
-  if (x->left != t->nil) x->left->parent = x;
-  y->parent = x->parent;
-  if (x->parent == t->nil) t->root = y;
-  else if (x == x->parent->left) x->parent->left = y;
-  else x->parent->right = y;
-  y->left = x;
-  x->parent = y;
+void _rbt_print(rb_tree *t, node *x, int level) {
+  if (x == t->nil) return;
+  
+  int i;
+  for (i = 0; i < level; i++)
+  {
+    printf("-   ");
+  }
+  
+  printf("%s %s%d%s\n",
+    _is_node_on_left(t, x) ? "<"
+      : _is_node_on_right(t, x) ? ">" : "*",
+    x->color ? "[" : "(",
+    x->value,
+    x->color ? "]" : ")"
+  );
+  if (x->left != t->nil) {
+    _rbt_print(t, x->left, level + 1);
+  }
+  if (x->right != t->nil) {
+    _rbt_print(t, x->right, level + 1);
+  }
+  if(level == 0) {
+    printf("\n");
+  }
 }
 
-void right_rotate(rb_tree *t, node *x) {
-  node *y = x->left;
-  x->left = y->right;
-  if (x->right != t->nil) x->right->parent = x;
-  y->parent = x->parent;
-  if (x->parent == t->nil) t->root = y;
-  else if (x == x->parent->right) x->parent->right = y;
-  else x->parent->left = y;
-  y->right = x;
-  x->parent = y;
+void left_rotate(rb_tree *t, node *pivot) {
+  node *child = pivot->right;
+  pivot->right = child->left;
+  if (pivot->right != t->nil) {
+    pivot->right->parent = pivot;
+  }
+  child->parent = pivot->parent;
+  if (pivot->parent == t->nil) {
+    t->root = child;
+  } else if (pivot == pivot->parent->left) {
+    pivot->parent->left = child;
+  } else {
+    pivot->parent->right = child;
+  }
+  child->left = pivot;
+  pivot->parent = child;
+}
+
+void right_rotate(rb_tree *t, node *pivot) {
+  node *child = pivot->left;
+  pivot->left = child->right;
+  if (pivot->left != t->nil) {
+    pivot->left->parent = pivot;
+  }
+  child->parent = pivot->parent;
+  if (pivot->parent == t->nil) {
+    t->root = child;
+  } else if (pivot == pivot->parent->right) {
+    pivot->parent->right = child;
+  } else {
+    pivot->parent->left = child;
+  }
+  child->right = pivot;
+  pivot->parent = child;
 }
 
 void _delete_fixup (rb_tree *t, node *n) {
@@ -156,19 +195,6 @@ int rbt_initialize (rb_tree *tree) {
   return 1;
 }
 
-void _rbt_print(rb_tree *t, node *x) {
-  if (x == t->nil) return;
-  printf("%d  color: %d \n", x->value, x->color);
-  if (x->left != t->nil) {
-    printf("%d left: ", x->value);
-    _rbt_print(t, x->left);
-  }
-  if (x->right != t->nil) {
-    printf("%d right: ", x->value);
-    _rbt_print(t, x->right);
-  }
-}
-
 int _is_node_on_left(rb_tree *t, node *n) {
   return n == n->parent->left;
 }
@@ -262,26 +288,22 @@ void rbt_delete(rb_tree *t, node *n) {
     node *y = rbt_minimum(t, n->right);
     y_original_color = y->color;
     x = y->right;
-    if (y->parent != n) {
-      printf("I'm here\n");
-      printf("Node is 15 right?\n");
-      printf("%s! %d\n", y->value == 15 ? "yeap" : "nope", y->value);
+    if (y->parent == n) {
+      x->parent = y;
+    } else {
       rbt_transplant(t, y, y->right);
-      printf("Still 15?\n");
-      printf("%s! %d\n", y->value == 15 ? "yeap" : "nope", y->value);
       y->right = n->right;
       y->right->parent = y;
     }
     rbt_transplant(t, n, y);
-    printf("What now? 15?\n");
-    printf("%s! %d\n", y->value == 15 ? "yeap" : "nope", y->value);
+    if (n == t->root) {
+      t->root = y;
+    }
     y->left = n->left;
     y->left->parent = y;
     y->color = n->color;
   }
   if (y_original_color == BLACK) {
-    printf("Wtf is x now?\n");
-    printf("it is %d?\n", x->value);
     _delete_fixup(t, x);
   }
 	free(n);
@@ -306,25 +328,19 @@ int main(void) {
   rbt_insert(&tree, 6);
   rbt_insert(&tree, 7);
 
-
-  printf("with 10 \n ");
-
-  _rbt_print(&tree, tree.root);
-
-  printf("\n");
-
-  node *delete_node = rbt_search(&tree, 10);
-  rbt_delete(&tree, delete_node);
-
-  printf("without 10 \n ");
-
-  _rbt_print(&tree, tree.root);
+  _rbt_print(&tree, tree.root, 0);
 
   node *searched_node = rbt_search(&tree, 17);
   printf("Search de node has key: %d and color: %s \n",
     searched_node->value,
     searched_node->color ? "red" : "black"
   );
+
+  node *delete_node = rbt_search(&tree, 10);
+  rbt_delete(&tree, delete_node);
+
+  _rbt_print(&tree, tree.root, 0);
+
 
   return 0;
 }
