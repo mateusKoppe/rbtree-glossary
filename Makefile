@@ -1,15 +1,17 @@
 All: start
 
 start: compile
+
+dev:
+	gcc -g main.c rbtree/rbtree.c -Wall -O2 -ansi -Wno-unused-result  -o main
 	./main
 
-compile: main.o rbtree.o
-	gcc -g main.o rbtree.o -o main
+compile: main.o rbtree/rbtree.o
+	gcc main.o rbtree/rbtree.o -o main
 
 .SUFFIXES: .o .c
-
 .c.o:
-	gcc -g -c $*.c -Wall -O2 -ansi
+	gcc -c $*.c -Wall -O2 -ansi -Wno-unused-result -o $*.o
 
 order:
 	rm -f *.o
