@@ -14,63 +14,33 @@ int main(void) {
   cmdtool_initialize(&cmd);
 
   char input;
-  char *action;
+  char *action = malloc(0);
   while (scanf("%c", &input) != EOF) {
     cmdtool_handle(&cmd, input);
 
     if (cmd.is_digesting) continue;
 
-    printf("here v:%s k:%d\n", cmd.actual_param_value, cmd.actual_param_key);
-
     if (cmd.actual_param_key == 0) {
-      action = cmd.actual_param_value;
+      strcpy(action, cmd.actual_param_value);
 
       if(cmdtool_is_param(&cmd, "p")) {
-        printf("Print\n");
+        rbt_print(&tree, tree.root, 0);
+      }
+    }
+
+    if (cmd.actual_param_key == 1) {
+      if (strcmp(action, "i") == 0) {
+        int key = (int) strtol(cmd.actual_param_value, NULL, 10);
+        rbt_insert(&tree, key);
       }
 
-      if(cmdtool_is_param(&cmd, "i")) {
-        printf("Insert\n");
+      if (strcmp(action, "e") == 0) {
+        int key = (int) strtol(cmd.actual_param_value, NULL, 10);
+        rbt_delete(&tree, rbt_search(&tree, key));
       }
     }
 
   }
 
-  /*
-  switch (action) {
-  case 'i':
-    if (input == KEY_ENTER) {
-      stage++;
-    }
-    if (cycle == 0) {
-      param_size = 0;
-      param = (char *) malloc(0);
-    } else if (cycle == 1) {
-      param_size++;
-      param = realloc(param, sizeof (char*) * param_size);
-      param[param_size-1] = input;
-    } else if (cycle == 2) {
-      key = (int) strtol(param, NULL, 10);
-      rbt_insert(&tree, key);
-      free(param);
-    }
-    break;
-
-  case 'p':
-    if (cycle == 0) {
-      _rbt_print(&tree, tree.root, 0);
-    }
-    break;
-
-  case 'e':
-    if (cycle == 0) {
-      _rbt_print(&tree, tree.root, 0);
-    }
-    break;
-
-  default:
-    action = NULL;
-  }
- */
   return 0;
 }

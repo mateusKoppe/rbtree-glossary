@@ -18,5 +18,6 @@ int rbt_initialize (rb_tree *t);
 int rbt_insert (rb_tree *t, int key);
 node *rbt_search(rb_tree *t, int key);
 void rbt_delete(rb_tree *t, node *n);
+void rbt_print(rb_tree *t, node *x, int level);
 
 #endif

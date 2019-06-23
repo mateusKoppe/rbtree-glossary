@@ -21,7 +21,15 @@ node* _clone_node (node *n, node *clone_node) {
   return n;
 }
 
-void _rbt_print(rb_tree *t, node *x, int level) {
+int _is_node_on_left(rb_tree *t, node *n) {
+  return n == n->parent->left;
+}
+
+int _is_node_on_right(rb_tree *t, node *n) {
+  return n == n->parent->right;
+}
+
+void rbt_print(rb_tree *t, node *x, int level) {
   if (x == t->nil) return;
   
   int i;
@@ -38,10 +46,10 @@ void _rbt_print(rb_tree *t, node *x, int level) {
     x->color ? "]" : ")"
   );
   if (x->right != t->nil) {
-    _rbt_print(t, x->right, level + 1);
+    rbt_print(t, x->right, level + 1);
   }
   if (x->left != t->nil) {
-    _rbt_print(t, x->left, level + 1);
+    rbt_print(t, x->left, level + 1);
   }
   if(level == 0) {
     printf("\n");
@@ -192,14 +200,6 @@ int rbt_initialize (rb_tree *tree) {
   tree->nil = nil;
   tree->root = nil;
   return 1;
-}
-
-int _is_node_on_left(rb_tree *t, node *n) {
-  return n == n->parent->left;
-}
-
-int _is_node_on_right(rb_tree *t, node *n) {
-  return n == n->parent->right;
 }
 
 node *rbt_search(rb_tree *t, int key) {
