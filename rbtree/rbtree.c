@@ -3,12 +3,23 @@
 #include <string.h>
 #include "rbtree.h"
 
+int string_length(char s[]) {
+  int c = 0;
+
+  while (s[c] != '\0')
+    c++;
+
+  return c;
+}
+
 void _rbt_insert_fixup(rb_tree *t, node *z);
 
-void _node_initialize (node *new_node, rb_tree *tree, node *parent, char *key) {
+void _node_initialize (node *new_node, rb_tree *tree, node *parent, char *key, char *description) {
   new_node->parent = parent;
-  new_node->value = malloc(0);
+  new_node->value = malloc(string_length(key) * sizeof(char));
   strcpy(new_node->value, key);
+  new_node->description = malloc(string_length(description) * sizeof(char));
+  strcpy(new_node->description, description);
   new_node->left = tree->nil;
   new_node->right = tree->nil;
   new_node->color = RED;
@@ -16,8 +27,10 @@ void _node_initialize (node *new_node, rb_tree *tree, node *parent, char *key) {
 
 node* _clone_node (node *n, node *clone_node) {
   n->parent = clone_node->parent;
-  n->value = malloc(0);
+  n->value = malloc(string_length(clone_node->value) * sizeof(char));
   strcpy(n->value, clone_node->value);
+  n->description = malloc(string_length(clone_node->description) * sizeof(char));
+  strcpy(n->description, clone_node->description);
   n->left = clone_node->left;
   n->right = clone_node->right;
   n->color = clone_node->color;
@@ -218,7 +231,7 @@ node *rbt_search(rb_tree *t, char *key) {
   return fetch_node;
 }
 
-int rbt_insert (rb_tree *tree, char *key) {
+int rbt_insert (rb_tree *tree, char *key, char *description) {
   node *new_node = malloc(sizeof(node));
   node *fetch_node = tree->root;
   node *backup_node = tree->nil;
@@ -232,7 +245,7 @@ int rbt_insert (rb_tree *tree, char *key) {
     }
   }
 
-  _node_initialize(new_node, tree, backup_node, key);
+  _node_initialize(new_node, tree, backup_node, key, description);
   if (backup_node == tree->nil) {
     tree->root = new_node;
   } else if (strcmp(key, backup_node->value) < 0) {
@@ -309,7 +322,6 @@ void rbt_delete(rb_tree *t, node *n) {
   if (y_original_color == BLACK) {
     _delete_fixup(t, x);
   }
-  printf("f |%s| \n", n->value);
   free(n->value);
 	free(n);
 }
