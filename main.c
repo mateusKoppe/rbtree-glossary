@@ -3,8 +3,7 @@
 #include <string.h>
 #include "rbtree/rbtree.h"
 #include "cmdtool/cmdtool.h"
-
-/* MAIN */
+#include "helpers/helpers.h"
 
 int main(void) {
   rb_tree tree;
@@ -32,6 +31,7 @@ int main(void) {
     }
 
     if (cmd.actual_param_key == 1) {
+      word = realloc(word, sizeof(char*) * string_length(cmd.actual_param_value));
       strcpy(word, cmd.actual_param_value);
 
       if (strcmp(action, "q") == 0) {
@@ -46,8 +46,12 @@ int main(void) {
 
     if (cmd.actual_param_key >= 2) {
       if (cmd.actual_param_key == 2) {
+        param = realloc(param, sizeof(char*) * string_length(cmd.actual_param_value));
         strcpy(param, cmd.actual_param_value);
       } else {
+        int param_str_size = sizeof(char*) * string_length(param);
+        int value_str_size = sizeof(char*) * (string_length(cmd.actual_param_value) +1);
+        param = realloc(param, param_str_size + value_str_size);
         strcat(param, " ");
         strcat(param, cmd.actual_param_value);
       }
@@ -58,6 +62,10 @@ int main(void) {
       param = malloc(0);
     }
   }
+
+  free(word);
+  free(param);
+  free(action);
 
   return 0;
 }

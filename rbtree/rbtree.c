@@ -2,15 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "rbtree.h"
-
-int string_length(char s[]) {
-  int c = 0;
-
-  while (s[c] != '\0')
-    c++;
-
-  return c;
-}
+#include "../helpers/helpers.h"
 
 void _rbt_insert_fixup(rb_tree *t, node *z);
 
