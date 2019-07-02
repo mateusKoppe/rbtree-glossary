@@ -34,18 +34,28 @@ int main(void) {
     if (cmd.actual_param_key == 1) {
       strcpy(word, cmd.actual_param_value);
 
+      if (strcmp(action, "q") == 0) {
+        node *searched = rbt_search(&tree, word);
+        printf("%s\n", searched->description);
+      }
+
       if (strcmp(action, "e") == 0) {
         rbt_delete(&tree, rbt_search(&tree, param));
       }
     }
 
     if (cmd.actual_param_key >= 2) {
-      if (cmd.actual_param_key > 2) strcat(param, " ");
-      strcat(param, cmd.actual_param_value);
+      if (cmd.actual_param_key == 2) {
+        strcpy(param, cmd.actual_param_value);
+      } else {
+        strcat(param, " ");
+        strcat(param, cmd.actual_param_value);
+      }
     }
 
     if (cmd.is_command_ending) {
       rbt_insert(&tree, word, param);
+      param = malloc(0);
     }
   }
 
