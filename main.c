@@ -15,6 +15,8 @@ int main(void) {
 
   char input;
   char *action = malloc(0);
+  char *param = malloc(0); 
+
   while (scanf("%c", &input) != EOF) {
     cmdtool_handle(&cmd, input);
 
@@ -29,17 +31,15 @@ int main(void) {
     }
 
     if (cmd.actual_param_key == 1) {
+      strcpy(param, cmd.actual_param_value);
       if (strcmp(action, "i") == 0) {
-        int key = (int) strtol(cmd.actual_param_value, NULL, 10);
-        rbt_insert(&tree, key);
+        rbt_insert(&tree, param);
       }
 
       if (strcmp(action, "e") == 0) {
-        int key = (int) strtol(cmd.actual_param_value, NULL, 10);
-        rbt_delete(&tree, rbt_search(&tree, key));
+        rbt_delete(&tree, rbt_search(&tree, param));
       }
     }
-
   }
 
   return 0;

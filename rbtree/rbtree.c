@@ -1,12 +1,14 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "rbtree.h"
 
 void _rbt_insert_fixup(rb_tree *t, node *z);
 
-void _node_initialize (node *new_node, rb_tree *tree, node *parent, int key) {
+void _node_initialize (node *new_node, rb_tree *tree, node *parent, char *key) {
   new_node->parent = parent;
-  new_node->value = key;
+  new_node->value = malloc(0);
+  strcpy(new_node->value, key);
   new_node->left = tree->nil;
   new_node->right = tree->nil;
   new_node->color = RED;
@@ -14,7 +16,8 @@ void _node_initialize (node *new_node, rb_tree *tree, node *parent, int key) {
 
 node* _clone_node (node *n, node *clone_node) {
   n->parent = clone_node->parent;
-  n->value = clone_node->value;
+  n->value = malloc(0);
+  strcpy(n->value, clone_node->value);
   n->left = clone_node->left;
   n->right = clone_node->right;
   n->color = clone_node->color;
@@ -38,7 +41,7 @@ void rbt_print(rb_tree *t, node *x, int level) {
     printf("-   ");
   }
   
-  printf("%s %s%d%s\n",
+  printf("%s %s%s%s\n",
     _is_node_on_left(t, x) ? "<"
       : _is_node_on_right(t, x) ? ">" : "*",
     x->color ? "[" : "(",
@@ -202,10 +205,10 @@ int rbt_initialize (rb_tree *tree) {
   return 1;
 }
 
-node *rbt_search(rb_tree *t, int key) {
+node *rbt_search(rb_tree *t, char *key) {
   node *fetch_node = t->root;
-  while (fetch_node != t->nil && fetch_node->value != key) {
-    if (key < fetch_node->value) { 
+  while (fetch_node != t->nil &&  strcmp(key, fetch_node->value) != 0) {
+    if (strcmp(key, fetch_node->value) < 0) { 
       fetch_node = fetch_node->left;
     }
     else {
@@ -215,14 +218,14 @@ node *rbt_search(rb_tree *t, int key) {
   return fetch_node;
 }
 
-int rbt_insert (rb_tree *tree, int key) {
+int rbt_insert (rb_tree *tree, char *key) {
   node *new_node = malloc(sizeof(node));
   node *fetch_node = tree->root;
   node *backup_node = tree->nil;
 
   while (fetch_node != tree->nil) {
     backup_node = fetch_node;
-    if (key < fetch_node->value) {
+    if (strcmp(key, fetch_node->value) < 0) {
       fetch_node = fetch_node->left;
     } else {
       fetch_node = fetch_node->right;
@@ -232,7 +235,7 @@ int rbt_insert (rb_tree *tree, int key) {
   _node_initialize(new_node, tree, backup_node, key);
   if (backup_node == tree->nil) {
     tree->root = new_node;
-  } else if (key < backup_node->value) {
+  } else if (strcmp(key, backup_node->value) < 0) {
     backup_node->left = new_node;
   } else {
     backup_node->right = new_node;
@@ -306,5 +309,7 @@ void rbt_delete(rb_tree *t, node *n) {
   if (y_original_color == BLACK) {
     _delete_fixup(t, x);
   }
+  printf("f |%s| \n", n->value);
+  free(n->value);
 	free(n);
 }

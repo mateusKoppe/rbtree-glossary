@@ -23,7 +23,6 @@ int cmdtool_is_param(cmdstatus *cmd, char value[]) {
 }
 
 void cmdtool_restart(cmdstatus *cmd) {
-  free(cmd->actual_param_value);
   cmdtool_initialize(cmd);
   cmd->is_digesting = 1;
   cmd->is_command_starting = 1;
