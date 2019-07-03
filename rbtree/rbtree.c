@@ -37,6 +37,19 @@ int _is_node_on_right(rb_tree *t, node *n) {
   return n == n->parent->right;
 }
 
+void rbt_query(rb_tree *t, node *x, char *query) {
+  if (x == t->nil) return;
+  if (strcmp(x->value, query) != 0) return;
+  
+  printf("%s\n", x->description);
+  if (x->left != t->nil) {
+    rbt_query(t, x->left, query);
+  }
+  if (x->right != t->nil) {
+    rbt_query(t, x->right, query);
+  }
+}
+
 void rbt_print(rb_tree *t, node *x, int level) {
   if (x == t->nil) return;
   

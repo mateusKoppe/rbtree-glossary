@@ -36,7 +36,7 @@ int main(void) {
 
       if (strcmp(action, "q") == 0) {
         node *searched = rbt_search(&tree, word);
-        printf("%s\n", searched->description);
+        rbt_query(&tree, searched, word);
       }
 
       if (strcmp(action, "e") == 0) {

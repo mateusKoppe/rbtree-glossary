@@ -1,0 +1,3 @@
+i cubo tipo quadrado
+i cubo nice
+q cubo
