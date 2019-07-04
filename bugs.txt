@@ -1,0 +1,1 @@
+- durante o delete pode ocorrer falha de segmentacao, isso esta ligado com o root da arvore

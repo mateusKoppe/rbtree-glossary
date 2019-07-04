@@ -45,9 +45,6 @@ int main(void) {
         rbt_query(&tree, searched, word);
       }
 
-      if (strcmp(action, "e") == 0) {
-        rbt_delete_word(&tree, word);
-      }
     }
 
     if (cmd.actual_param_key >= 2) {
@@ -66,6 +63,15 @@ int main(void) {
     if (cmd.is_command_ending) {
       if (strcmp(action, "i") == 0) {
         rbt_insert(&tree, word, param);
+      }
+
+      if (strcmp(action, "e") == 0) {
+        if (cmd.actual_param_key == 1) {
+          rbt_delete_word(&tree, word);
+        }
+        if (cmd.actual_param_key > 1) {
+          /* rbt_delete_description(&tree, word, param);*/
+        }
       }
     }
   }

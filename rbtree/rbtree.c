@@ -4,8 +4,6 @@
 #include "rbtree.h"
 #include "../helpers/helpers.h"
 
-void _rbt_insert_fixup(rb_tree *t, node *z);
-
 void _node_initialize (node *new_node, rb_tree *tree, node *parent, char *key, char *description) {
   new_node->parent = parent;
   new_node->value = malloc(string_length(key) * sizeof(char));
@@ -66,6 +64,14 @@ void rbt_print(rb_tree *t, node *x, int level) {
     x->value,
     x->color ? "]" : ")"
   );
+
+  for (i = 0; i < level; i++)
+  {
+    printf("-   ");
+  }
+
+  printf("%s\n", x->description);
+
   if (x->right != t->nil) {
     rbt_print(t, x->right, level + 1);
   }
@@ -261,7 +267,14 @@ int rbt_insert (rb_tree *tree, char *key, char *description) {
 
   while (fetch_node != tree->nil) {
     backup_node = fetch_node;
-    if (strcmp(key, fetch_node->value) < 0) {
+
+    if (
+      strcmp(key, backup_node->value) < 0
+      || (
+        (strcmp(key, backup_node->value) == 0)
+        && (strcmp(description, backup_node->description) < 0)
+      )
+    ) {
       fetch_node = fetch_node->left;
     } else {
       fetch_node = fetch_node->right;
@@ -271,7 +284,13 @@ int rbt_insert (rb_tree *tree, char *key, char *description) {
   _node_initialize(new_node, tree, backup_node, key, description);
   if (backup_node == tree->nil) {
     tree->root = new_node;
-  } else if (strcmp(key, backup_node->value) < 0) {
+  } else if (
+    strcmp(key, backup_node->value) < 0
+    || (
+      (strcmp(key, backup_node->value) == 0)
+      && (strcmp(description, backup_node->description) < 0)
+    )
+  ) {
     backup_node->left = new_node;
   } else {
     backup_node->right = new_node;
