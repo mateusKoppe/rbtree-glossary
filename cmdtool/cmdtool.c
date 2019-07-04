@@ -16,6 +16,7 @@ void cmdtool_initialize(cmdstatus *cmd) {
   cmd->actual_param_key = 0;
   cmd->is_param_ending = 0;
   cmd->actual_param_value = (char *) malloc(0);
+  strcpy(cmd->actual_param_value, "");
 }
 
 int cmdtool_is_param(cmdstatus *cmd, char value[]) {
@@ -29,10 +30,10 @@ void cmdtool_restart(cmdstatus *cmd) {
 }
 
 void cmdtool_restart_param(cmdstatus *cmd) {
-  free(cmd->actual_param_value);
   cmd->is_param_ending = 0;
   cmd->actual_param_size = 0;
   cmd->actual_param_value = (char *) malloc(0);
+  strcpy(cmd->actual_param_value, "");
 }
 
 void cmdtool_handle (cmdstatus *cmd, char input) {
