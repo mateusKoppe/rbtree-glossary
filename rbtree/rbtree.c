@@ -77,6 +77,16 @@ void rbt_print(rb_tree *t, node *x, int level) {
   }
 }
 
+void rbt_list(rb_tree *t, node *x, char *actual_word) {
+  if (x == t->nil) return;
+  rbt_list(t, x->left, x->value);
+  if (strcmp(x->value, actual_word) != 0) {
+    printf("-- %s -- %s\n", x->value, actual_word);
+  }
+  printf("%s: %s\n", x->value, x->description);
+  rbt_list(t, x->right, x->value);
+}
+
 void left_rotate(rb_tree *t, node *pivot) {
   node *child = pivot->right;
   pivot->right = child->left;

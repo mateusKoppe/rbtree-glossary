@@ -24,8 +24,14 @@ int main(void) {
 
     if (cmd.actual_param_key == 0) {
       strcpy(action, cmd.actual_param_value);
+      strcpy(word,"");
+      strcpy(param,"");
 
       if(cmdtool_is_param(&cmd, "p")) {
+        rbt_list(&tree, tree.root, "");
+      }
+
+      if(cmdtool_is_param(&cmd, "t")) {
         rbt_print(&tree, tree.root, 0);
       }
     }
@@ -58,8 +64,11 @@ int main(void) {
     }
 
     if (cmd.is_command_ending) {
-      rbt_insert(&tree, word, param);
-      param = malloc(0);
+      printf("action |%s|\n", action);
+      if (strcmp(action, "i") == 0) {
+        printf("param: |%s|\n", param);
+        rbt_insert(&tree, word, param);
+      }
     }
   }
 

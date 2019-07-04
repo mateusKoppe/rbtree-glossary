@@ -1,2 +1,12 @@
-tipo quadrado
-nice
+cube: a rubik cube isè a≥è cube
+cube: kind ofè a∫è square but inè more dimensions
+cube: it is not a∫è ball
+-- cube -- mouse
+mouse: i use itè toè move the cursor onè myè screen
+mouse: it is aÀè animal
+-- mouse -- cube
+-- cube -- notebook
+notebook: you can use itè toè write stuff onè itè
+notebook: there is a lot of paper in it
+notebook: if you are going toè school you'll need one
+-- notebook -- 
