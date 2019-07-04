@@ -24,5 +24,6 @@ void rbt_delete_description(rb_tree *t, char *word, char *description);
 void rbt_query(rb_tree *t, node *x, char *query);
 void rbt_print(rb_tree *t, node *x, int level);
 void rbt_list(rb_tree *t, node *x, char *actual_word);
+void rbt_free(rb_tree *t);
 
 #endif

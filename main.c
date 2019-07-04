@@ -79,6 +79,7 @@ int main(void) {
   free(word);
   free(param);
   free(action);
+  rbt_free(&tree);
 
   return 0;
 }

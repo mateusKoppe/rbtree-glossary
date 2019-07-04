@@ -385,3 +385,15 @@ void rbt_delete(rb_tree *t, node *n) {
   }
   free(n);
 }
+
+void _rbtree_free(rb_tree *t, node *x) {
+  if (x == t->nil) return;
+  _rbtree_free(t, x->left);
+  _rbtree_free(t, x->right);
+  free(x);
+}
+
+void rbt_free(rb_tree *t) {
+  _rbtree_free(t, t->root);
+  free(t->nil);
+}
