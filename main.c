@@ -39,7 +39,6 @@ int main(void) {
     if (cmd.actual_param_key == 1) {
       word = realloc(word, sizeof(char*) * string_length(cmd.actual_param_value));
       strcpy(word, cmd.actual_param_value);
-      printf("word: |%s| \n", cmd.actual_param_value);
 
       if (strcmp(action, "q") == 0) {
         node *searched = rbt_search(&tree, word);
@@ -47,7 +46,7 @@ int main(void) {
       }
 
       if (strcmp(action, "e") == 0) {
-        rbt_delete(&tree, rbt_search(&tree, param));
+        rbt_delete_word(&tree, word);
       }
     }
 
@@ -65,9 +64,7 @@ int main(void) {
     }
 
     if (cmd.is_command_ending) {
-      printf("action |%s|\n", action);
       if (strcmp(action, "i") == 0) {
-        printf("param: |%s|\n", param);
         rbt_insert(&tree, word, param);
       }
     }

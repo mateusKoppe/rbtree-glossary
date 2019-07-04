@@ -87,6 +87,14 @@ void rbt_list(rb_tree *t, node *x, char *actual_word) {
   rbt_list(t, x->right, x->value);
 }
 
+void rbt_delete_word(rb_tree *t, char *word) {
+  node *fetch = rbt_search(t, word);
+  while (fetch != t->nil) {
+    rbt_delete(t, fetch);
+    fetch = rbt_search(t, word);
+  }
+}
+
 void left_rotate(rb_tree *t, node *pivot) {
   node *child = pivot->right;
   pivot->right = child->left;
@@ -124,7 +132,7 @@ void right_rotate(rb_tree *t, node *pivot) {
 }
 
 void _delete_fixup (rb_tree *t, node *n) {
-  while (n != t->nil && n->color == BLACK) {
+  while (n != t->root && n->color == BLACK) {
     if (n == n->parent->left) {
       node *x = n->parent->right;
       if (x->color == RED) {
@@ -275,7 +283,7 @@ int rbt_insert (rb_tree *tree, char *key, char *description) {
 }
 
 void rbt_transplant (rb_tree *t, node *old_node, node *new_node) {
-  if (old_node == t->nil) {
+  if (old_node == t->nil || old_node == t->root) {
     t->root = new_node;
   } else if (_is_node_on_left(t, old_node)) {
     old_node->parent->left = new_node;
@@ -308,7 +316,7 @@ void rbt_delete(rb_tree *t, node *n) {
   node *x;
   int y_original_color = y->color;
   y = _clone_node(y, n);
-	if (n->left == t->nil) {
+    if (n->left == t->nil) {
     x = n->right;
     rbt_transplant(t, n, n->right);
   } else if (n->right == t->nil) {
@@ -337,6 +345,5 @@ void rbt_delete(rb_tree *t, node *n) {
   if (y_original_color == BLACK) {
     _delete_fixup(t, x);
   }
-  free(n->value);
-	free(n);
+  free(n);
 }
