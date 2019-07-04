@@ -105,15 +105,14 @@ void rbt_delete_description(rb_tree *t, char *word, char *description) {
   node *fetch = rbt_search(t, word);
   while (
     fetch != t->nil
+    && strcmp(word, fetch->value) == 0
     && strcmp(description, fetch->description) != 0
   ) {
-    if(strcmp(word, fetch->value) == 0) {
-      if (strcmp(description, fetch->description) < 0) { 
-        fetch = fetch->left;
-      }
-      else {
-        fetch = fetch->right;
-      }
+    if (strcmp(description, fetch->description) < 0) { 
+      fetch = fetch->left;
+    }
+    else {
+      fetch = fetch->right;
     }
   }
   if (fetch == t->nil) return;
@@ -170,17 +169,19 @@ void _delete_fixup (rb_tree *t, node *n) {
         x->color = RED;
         n = x->parent;
       }
-      else if (x->right->color == BLACK) {
-        x->left->color = BLACK;
-        x->color = RED;
-        right_rotate(t, x);
-        x = n->parent->right;
+      else {
+        if (x->right->color == BLACK) {
+          x->left->color = BLACK;
+          x->color = RED;
+          right_rotate(t, x);
+          x = n->parent->right;
+        }
+        x->color = n->parent->color;
+        n->parent->color = BLACK;
+        x->right->color = BLACK;
+        left_rotate(t, n->parent);
+        n = t->root;
       }
-      x->color = n->parent->color;
-      n->parent->color = BLACK;
-      x->right->color = BLACK;
-      left_rotate(t, n->parent);
-      n = t->root;
     } else {
       node *x = n->parent->left;
       if (x->color == RED) {
@@ -354,14 +355,13 @@ void rbt_delete(rb_tree *t, node *n) {
   node *x;
   int y_original_color = y->color;
   y = _clone_node(y, n);
-    if (n->left == t->nil) {
+  if (n->left == t->nil) {
     x = n->right;
     rbt_transplant(t, n, n->right);
   } else if (n->right == t->nil) {
     x = n->left;
     rbt_transplant(t, n, n->left);
   } else {
-    free(y);
     node *y = rbt_minimum(t, n->right);
     y_original_color = y->color;
     x = y->right;
