@@ -101,6 +101,25 @@ void rbt_delete_word(rb_tree *t, char *word) {
   }
 }
 
+void rbt_delete_description(rb_tree *t, char *word, char *description) {
+  node *fetch = rbt_search(t, word);
+  while (
+    fetch != t->nil
+    && strcmp(description, fetch->description) != 0
+  ) {
+    if(strcmp(word, fetch->value) == 0) {
+      if (strcmp(description, fetch->description) < 0) { 
+        fetch = fetch->left;
+      }
+      else {
+        fetch = fetch->right;
+      }
+    }
+  }
+  if (fetch == t->nil) return;
+  rbt_delete(t, fetch);
+}
+
 void left_rotate(rb_tree *t, node *pivot) {
   node *child = pivot->right;
   pivot->right = child->left;

@@ -70,7 +70,7 @@ int main(void) {
           rbt_delete_word(&tree, word);
         }
         if (cmd.actual_param_key > 1) {
-          /* rbt_delete_description(&tree, word, param);*/
+          rbt_delete_description(&tree, word, param);
         }
       }
     }
