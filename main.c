@@ -3,7 +3,6 @@
 #include <string.h>
 #include "rbtree/rbtree.h"
 #include "cmdtool/cmdtool.h"
-#include "helpers/helpers.h"
 
 void show_help() {
   printf("\n");

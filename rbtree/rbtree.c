@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <string.h>
 #include "rbtree.h"
-#include "../helpers/helpers.h"
 
 void _node_initialize (node *new_node, rb_tree *tree, node *parent, char *key, char *description) {
   new_node->parent = parent;
