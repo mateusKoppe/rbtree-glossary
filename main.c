@@ -5,7 +5,22 @@
 #include "cmdtool/cmdtool.h"
 #include "helpers/helpers.h"
 
+void show_help() {
+  printf("\n");
+  printf("> i <word> <description>  Add the word and it's description\n");
+  printf("> e <word>                Erase the word and it's descriptions\n");
+  printf("> e <word> <description>  Erase the word's description\n");
+  printf("> q <word>                List words and it's descriptions\n");
+  printf("> p                       List all words and descriptions\n");
+  printf("> h                       Help\n");
+}
+
 int main(void) {
+  printf("------------------------------\n");
+  printf("-          Glosary           -\n");
+  printf("------------------------------\n");
+  printf("Enter h to see all the comands\n");
+
   rb_tree tree;
   rbt_initialize(&tree);
 
@@ -36,6 +51,10 @@ int main(void) {
 
       if(cmdtool_is_param(&cmd, "t")) {
         rbt_print(&tree, tree.root, 0);
+      }
+
+      if(cmdtool_is_param(&cmd, "h")) {
+        show_help();
       }
     }
 

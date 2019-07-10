@@ -1,47 +1,33 @@
-word: |notebook| 
-action |i|
-param: |you can use it to write stuff on it|
-word: |cube| 
-action |i|
-param: |a rubik cube is a cube|
-word: |notebook| 
-action |i|
-param: |there is a lot of paper in it|
-word: |cube| 
-action |i|
-param: |kind of a square but in more dimensions|
-word: |cube| 
-action |i|
-param: |it is not a ball|
-word: |mouse| 
-action |i|
-param: |i use it to move the cursor on my screen|
-word: |notebook| 
-action |i|
-param: |if you are going to school you'll need one|
-word: |mouse| 
-action |i|
-param: |it is a animal|
-cube: a rubik cube is a cube
--- cube -- notebook
-cube: kind of a square but in more dimensions
--- cube -- mouse
-cube: it is not a ball
--- mouse -- cube
-mouse: i use it to move the cursor on my screen
-mouse: it is a animal
--- notebook -- 
-notebook: you can use it to write stuff on it
-notebook: there is a lot of paper in it
-notebook: if you are going to school you'll need one
-action |p|
-* (notebook)
--   > (notebook)
--   -   > [notebook]
--   < [cube]
--   -   > (mouse)
--   -   -   > [mouse]
--   -   -   < [cube]
--   -   < (cube)
+------------------------------
+-          Glosary           -
+------------------------------
+Enter h to see all the comands
+cafe: bebida preta 
+-- cafe -- casaco
+cafe: bom para se manter acordado
+cafe: moda do momento
+cafe: sei que da para tomar com leite
+-- casaco -- 
+casaco: usado para se esquentar
+chimarrao: bebida com erva mate
+-- chimarrao -- casaco
+chimarrao: bebida quente para beber 
+-- chocolate-quente -- chimarrao
+chocolate-quente: bebida quente com chocolate       
+* (casaco)
+usado para se esquentar
+-   > [chimarrao]
+-   bebida quente para beber 
+-   -   > (chocolate-quente)
+-   -   bebida quente com chocolate       
+-   -   < (chimarrao)
+-   -   bebida com erva mate
+-   < [cafe]
+-   bom para se manter acordado
+-   -   > (cafe)
+-   -   moda do momento
+-   -   -   > [cafe]
+-   -   -   sei que da para tomar com leite
+-   -   < (cafe)
+-   -   bebida preta 
 
-action |t|
