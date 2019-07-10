@@ -23,9 +23,12 @@ int main(void) {
     if (cmd.is_digesting) continue;
 
     if (cmd.actual_param_key == 0) {
+      param = realloc(param, sizeof(char*));
+      strcpy(param, "");
+      word = realloc(word, sizeof(char*));
+      strcpy(word, "");
+      action = (char*) realloc(action, strlen(cmd.actual_param_value));
       strcpy(action, cmd.actual_param_value);
-      strcpy(word,"");
-      strcpy(param,"");
 
       if(cmdtool_is_param(&cmd, "p")) {
         rbt_list(&tree, tree.root, "");
@@ -37,7 +40,7 @@ int main(void) {
     }
 
     if (cmd.actual_param_key == 1) {
-      word = realloc(word, sizeof(char*) * string_length(cmd.actual_param_value));
+      word = realloc(word, sizeof(char*) * strlen(cmd.actual_param_value));
       strcpy(word, cmd.actual_param_value);
 
       if (strcmp(action, "q") == 0) {
@@ -49,11 +52,11 @@ int main(void) {
 
     if (cmd.actual_param_key >= 2) {
       if (cmd.actual_param_key == 2) {
-        param = realloc(param, sizeof(char*) * string_length(cmd.actual_param_value));
+        param = realloc(param, sizeof(char*) * strlen(cmd.actual_param_value));
         strcpy(param, cmd.actual_param_value);
       } else {
-        int param_str_size = sizeof(char*) * string_length(param);
-        int value_str_size = sizeof(char*) * (string_length(cmd.actual_param_value) +1);
+        int param_str_size = sizeof(char*) * strlen(param);
+        int value_str_size = sizeof(char*) * (strlen(cmd.actual_param_value) +1);
         param = realloc(param, param_str_size + value_str_size);
         strcat(param, " ");
         strcat(param, cmd.actual_param_value);
@@ -79,7 +82,7 @@ int main(void) {
   free(word);
   free(param);
   free(action);
-  rbt_free(&tree);
+  rbt_free(&tree); 
 
   return 0;
 }
