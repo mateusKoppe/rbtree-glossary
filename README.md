@@ -2,6 +2,7 @@
 
 ## About
 A simple glossary implementated with a [Red-Black Tree](https://en.wikipedia.org/wiki/Red%E2%80%93black_tree) in C.
+
 This project was made as a Data Structure work in UFFS.
 
 ## Setup
@@ -25,6 +26,8 @@ After compiling just run the `main` file
 ./main
 ```
 
+When software are running you can use these commands:
+
 | Command                  | Description                          |
 |--------------------------|--------------------------------------|
 | `h`                      | Help                                 |
@@ -33,18 +36,31 @@ After compiling just run the `main` file
 | `e <word> <description>` | Erase the word's description         |
 | `q <word>`               | List words and it's descriptions     |
 | `p`                      | List all words and descriptions      |
+| `t`                      | Shows the glossary tree              |
 
 ## Make scripts
-- `make`: The same as `make compile`;
-- `make dev`: compiles and run `main` with `gdb` to debug;
-  - Note: you need to install gdb to debug
-- `make test`: Compiles and uses `./input.txt` as the input, saves it in `./output.txt`;
-  - Note: You have to create the `./input.txt` file
-- `make compile`: Compiles the code
-- `make clean`: Removes the binary files
+There are some Make scripts that may help you:
+- ```bash
+  make # The same as `make compile`
+  ```
+- ```bash
+  make dev # Compiles and run `main` with `gdb` to debug;
+  #Note: you need to install gdb to debug
+  ```
+- ```bash
+  make test # Compiles and uses `./input.txt` as the input, saves it in `./output.txt`;
+  #Note: You have to create the `./input.txt` file
+  ```
+- ```bash
+  make compile # Compiles the code
+  ```
+- ```bash
+  make clean # Removes the binary files
+  ```
 
 ## Contributing
 Tips, discussions and bug reports are very welcome, feel free to open an issue.
+
 There is no need for code contribuition.
 
 ## License
