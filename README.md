@@ -3,8 +3,6 @@
 ## About
 A simple glossary implementated with a [Red-Black Tree](https://en.wikipedia.org/wiki/Red%E2%80%93black_tree) in C.
 
-This project was made as a Data Structure work in UFFS.
-
 ## Setup
 
 Compiling using gcc:
