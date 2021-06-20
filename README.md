@@ -57,11 +57,3 @@ There are some Make scripts that may help you:
 - ```bash
   make clean # Removes the binary files
   ```
-
-## Contributing
-Tips, discussions and bug reports are very welcome, feel free to open an issue.
-
-There is no need for code contribuition.
-
-## License
-Feel free to use this code for whatever you want. I'll be happy if it helps you with something. :]
